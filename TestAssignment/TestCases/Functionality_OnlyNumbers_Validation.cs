@@ -12,6 +12,7 @@ using TestAssignment.TestData;
 using System.Windows;
 using TestAssignment.Reports;
 using RelevantCodes.ExtentReports;
+using System.Threading;
 
 
 namespace TestAssignment.TestCases
@@ -44,7 +45,11 @@ namespace TestAssignment.TestCases
                 var fieldsPage = new FieldsPage(driver);
 
                 //Setting the path of the TestData file.
-                string testdata_path = @"C:\Users\Akshatha\source\repos\TestAssignment\TestAssignment\TestData\Validate_OnlyNumbers.xml";
+                string path = System.Reflection.Assembly.GetCallingAssembly().CodeBase;
+                string actualPath = path.Substring(0, path.LastIndexOf("bin"));
+                string projectPath = new Uri(actualPath).LocalPath;
+                string testdata_path = projectPath + "TestData\\Validate_OnlyNumbers.xml";
+
                 AccessData test_data = new AccessData();
 
                 //Scenario-1 : Positive Flow Test-Passing only numbers into the field.
@@ -54,6 +59,7 @@ namespace TestAssignment.TestCases
                 utility.LogInfo(test, "Entering data " + data + " into OnlyNumbers field");
                 Console.WriteLine("Entering data " + data + " into OnlyNumbers field");
                 fieldsPage.SendKeysToOnlyNumbers(data);
+                Thread.Sleep(2000);
 
                 //validate whether the data sent is equal to the data rendered.
                 string tobevalidated_value = fieldsPage.OnlyNumbers.GetAttribute("value").ToString();
@@ -79,6 +85,7 @@ namespace TestAssignment.TestCases
                 utility.LogInfo(test, "Entering data " + data + " into OnlyNumbers field");
                 Console.WriteLine("Entering data " + data + " into OnlyNumbers field");
                 fieldsPage.SendKeysToOnlyNumbers(data);
+                Thread.Sleep(2000);
 
                 //validate whether the data sent is visible on the screen.
                 tobevalidated_value = fieldsPage.OnlyNumbers.GetAttribute("value").ToString();

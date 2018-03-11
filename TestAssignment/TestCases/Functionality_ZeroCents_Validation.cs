@@ -12,6 +12,7 @@ using TestAssignment.TestData;
 using System.Text.RegularExpressions;
 using TestAssignment.Reports;
 using RelevantCodes.ExtentReports;
+using System.Threading;
 
 namespace TestAssignment.TestCases
 {
@@ -43,7 +44,11 @@ namespace TestAssignment.TestCases
                 var fieldsPage = new FieldsPage(driver);
 
                 //Setting the path of the TestData file.
-                string testdata_path = @"C:\Users\Akshatha\source\repos\TestAssignment\TestAssignment\TestData\Validate_ZeroCents.xml";
+                string path = System.Reflection.Assembly.GetCallingAssembly().CodeBase;
+                string actualPath = path.Substring(0, path.LastIndexOf("bin"));
+                string projectPath = new Uri(actualPath).LocalPath;
+                string testdata_path = projectPath + "TestData\\Validate_ZeroCents.xml";
+
                 AccessData test_data = new AccessData();
 
                 //Scenario-1 : Positive Flow Test-Passing numbers into the field.
@@ -53,9 +58,10 @@ namespace TestAssignment.TestCases
                 utility.LogInfo(test, "Entering data " + data + " into ZeroCents field");
                 Console.WriteLine("Entering data " + data + " into ZeroCents field");
                 fieldsPage.SendKeysToZeroCents(data);
+                Thread.Sleep(2000);
 
                 //validate whether the data sent is rendered in the required format.
-                var tobevalidated_value = fieldsPage.ZeroCents.GetAttribute("value");
+                string tobevalidated_value = fieldsPage.ZeroCents.GetAttribute("value");
                 string zerocents_pattern = @"[0-9]{1,3}(\.[0-9]{3})*,00";
                 Match match = Regex.Match(tobevalidated_value, zerocents_pattern);
                 if (match.Success)
@@ -80,6 +86,7 @@ namespace TestAssignment.TestCases
                 utility.LogInfo(test, "Entering data " + data + " into ZeroCents field");
                 Console.WriteLine("Entering data " + data + " into ZeroCents field");
                 fieldsPage.SendKeysToZeroCents(data);
+                Thread.Sleep(2000);
 
                 //validate whether the data is accepted into the field.
                 tobevalidated_value = fieldsPage.ZeroCents.GetAttribute("value").ToString();

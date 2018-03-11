@@ -12,6 +12,7 @@ using TestAssignment.TestData;
 using System.Text.RegularExpressions;
 using TestAssignment.Reports;
 using RelevantCodes.ExtentReports;
+using System.Threading;
 
 namespace TestAssignment.TestCases
 {
@@ -43,7 +44,11 @@ namespace TestAssignment.TestCases
                 var fieldsPage = new FieldsPage(driver);
 
                 //Setting the path of the TestData file.
-                string testdata_path = @"C:\Users\Akshatha\source\repos\TestAssignment\TestAssignment\TestData\Validate_Phone.xml";
+                string path = System.Reflection.Assembly.GetCallingAssembly().CodeBase;
+                string actualPath = path.Substring(0, path.LastIndexOf("bin"));
+                string projectPath = new Uri(actualPath).LocalPath;
+                string testdata_path = projectPath + "TestData\\Validate_Phone.xml";
+
                 AccessData test_data = new AccessData();
 
                 //Scenario-1 : Positive Flow Test-Passing numbers into the field.
@@ -53,6 +58,7 @@ namespace TestAssignment.TestCases
                 utility.LogInfo(test, "Entering data " + data + " into Phone field");
                 Console.WriteLine("Entering data " + data + " into Phone field");
                 fieldsPage.SendKeysToPhone(data);
+                Thread.Sleep(2000);
 
                 //validate whether the data sent is rendered in the required format.
                 string tobevalidated_value = fieldsPage.Phone.GetAttribute("value").ToString();
@@ -80,6 +86,7 @@ namespace TestAssignment.TestCases
                 utility.LogInfo(test, "Entering data " + data + " into Phone field");
                 Console.WriteLine("Entering data " + data + " into Phone field");
                 fieldsPage.SendKeysToPhone(data);
+                Thread.Sleep(2000);
 
                 //validate whether the data is accepted into the field.
                 tobevalidated_value = fieldsPage.Phone.GetAttribute("value").ToString();

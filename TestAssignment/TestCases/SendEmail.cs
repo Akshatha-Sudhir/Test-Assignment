@@ -33,8 +33,8 @@ namespace TestAssignment.TestCases
                 string reportPath_Phone = projectPath + "Reports\\Phone.html";
                 string reportPath_ZeroCents = projectPath + "Reports\\ZeroCents.html";
                 attachment_OnlyNumbers = new System.Net.Mail.Attachment(reportPath_OnlyNumbers);
-                attachment_Phone = new System.Net.Mail.Attachment(reportPath_OnlyNumbers);
-                attachment_ZeroCents = new System.Net.Mail.Attachment(reportPath_OnlyNumbers);
+                attachment_Phone = new System.Net.Mail.Attachment(reportPath_Phone);
+                attachment_ZeroCents = new System.Net.Mail.Attachment(reportPath_ZeroCents);
                 mail.Attachments.Add(attachment_OnlyNumbers);
                 mail.Attachments.Add(attachment_Phone);
                 mail.Attachments.Add(attachment_ZeroCents);
@@ -44,7 +44,7 @@ namespace TestAssignment.TestCases
                 SmtpServer.EnableSsl = true;
 
                 SmtpServer.Send(mail);
-                MessageBox.Show("mail Send");
+                MessageBox.Show("mail Sent");
             }
             catch (Exception ex)
             {
